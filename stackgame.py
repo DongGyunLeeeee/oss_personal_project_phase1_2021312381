@@ -1,51 +1,74 @@
 import pygame
 import sys
 
+# 파이게임 초기화
 pygame.init()
 
-screen_width, screen_height = 800, 600
+# 화면 설정
+screen_width, screen_height = 400, 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Stack Game")
 
+# 색상 정의
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
+# 블록 설정
 block_width = 100
-block_height = 20
-moving_block_y = screen_height // 2
-fixed_block = pygame.Rect((screen_width // 2 - block_width // 2, screen_height - block_height), (block_width, block_height))
-moving_block = pygame.Rect((screen_width // 2 - block_width // 2, moving_block_y), (block_width, block_height))
+block_height = 10
 
-block_speed = 5
-block_direction = 1
+# 블록 이동 속도
+block_speed = 3
 
-running = True
+# 점수
+score = 0
+
 clock = pygame.time.Clock()
 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                overlap = moving_block.clip(fixed_block)
-                if overlap.width > 0:
-                    fixed_block = overlap
-                    moving_block = pygame.Rect((screen_width // 2 - overlap.width // 2, moving_block_y - block_height), (overlap.width, block_height))
-                    moving_block_y -= block_height
-                else:
-                    running = False
-    moving_block.x += block_speed * block_direction
-    if moving_block.right >= screen_width or moving_block.left <= 0:
-        block_direction *= -1
+class Brick:
+    def __init__(self, x, y, color, speed):
+        self.x = x
+        self.y = y
+        self.w = block_width
+        self.h = block_height
+        self.color = RED
+        self.speed = speed
 
-    screen.fill(BLACK)
-    pygame.draw.rect(screen, WHITE, fixed_block)
-    pygame.draw.rect(screen, RED, moving_block)
-    pygame.display.flip()
+    def draw(self):
+        pygame.draw.rect(screen, self.color, (self.x, self.y, self.w, self.h))
 
-    clock.tick(30)
+    def move(self):
+        self.x += self.speed
+        if self.x > width:
+            self.speed *= -1
+        if self.x + self.w < 1:
+            self.speed *= -1
 
-pygame.quit()
-sys.exit()
+def close():
+    pygame.quit()
+    sys.exit()
+
+def game():
+    global block_width, block_height, block_speed, score
+    loop = True
+
+    block_width = 100
+    block_height = 10
+    speed = 3
+    score = 0
+    
+    while loop:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                close()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                
+                if event.key == pygame.K_q:
+                    close()
+        
+        display.fill(BLACK)
+        clock.tick(60)
+
+game()
