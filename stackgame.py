@@ -45,6 +45,11 @@ class Brick:
         if self.x + self.w < 1:
             self.speed *= -1
 
+def scoreboard():
+    font = pygame.font.SysFont(None, 30)
+    text = font.render(str(score), True, WHITE)
+    screen.blit(text, (200, 10))
+
 def close():
     pygame.quit()
     sys.exit()
@@ -67,7 +72,7 @@ def game():
                 
                 if event.key == pygame.K_q:
                     close()
-        
+        scoreboard()
         display.fill(BLACK)
         clock.tick(60)
 
