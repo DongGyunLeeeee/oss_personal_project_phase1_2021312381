@@ -45,5 +45,40 @@ pip install pygame
 ```
 
 # 실행 예시
+![화면-기록-2024-06-04-오후-3 56 52](https://github.com/DongGyunLeeeee/oss_personal_project_phase1_2021312381/assets/83210475/8acedd20-a9f7-46fb-8919-38783336dfec)
 
 # 코드 설명
+## stackgame.py
+### class Block
++ description: stackgame에서 stack될 block의 정보가 담긴 클래스
+
+    i. Def init: block의 x좌표, y좌표, 너비, 높이, 색, 속도를 초기화함.
+  
+    ii. Def draw: block을 화면에 표시함.
+  
+    iii. Def move: 움직이는 block이 왼쪽, 오른쪽 양쪽 화면에 닿으면 반대로 움직이게 함.
+  
+### class Stack
++ description: stackgame을 수행하는 메인 클래스
+  
+    i. Def init: 게임 실행 시 기본으로 깔려 있는 block을 stack 배열 안에 초기화함.
+  
+    ii. Def show: 범위 내 block을 draw함.
+  
+    iii. Def move: 범위 내 block의 move를 관리함.
+  
+    iv. Def adding: block을 추가함.
+
+    v. Def stacking: 움직이는 block과 바로 아래에 있는 마지막 block을 비교하여 게임을 이어가거나 종료함.
+### def scoreboard
++ description: 현재 점수를 나타냄.
+### def highestboard
++ description: 최고 점수를 나타냄.
+### def ending
++ description: stackgame이 종료되었을 때, 최고점 갱신 기능을 수행하고 스페이바를 눌러 재시작하거나 'Q'를 눌러 pygame을 종료함.
+### def close
++ description: pygame을 종료함.
+### def explain
++ description: pygame 실행 시 나오는 화면으로 조작키를 설명함.
+### def game
++ description: stackgame이 실행되는 loop임.
