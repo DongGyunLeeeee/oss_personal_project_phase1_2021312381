@@ -26,18 +26,34 @@ score = 0
 highest_score = 0
 clock = pygame.time.Clock()
 
+# 블록 클래스
 class Block:
+
+    # 블록 초기화
     def __init__(self, x, y, color, speed):
+        # 블록의 x 좌표
         self.x = x
+
+        # 블록의 y 좌표
         self.y = y
+
+        # 블록의 너비
         self.w = block_width
+
+        # 블록의 높이
         self.h = block_height
+
+        # 블록의 색
         self.color = RED
+
+        # 블록의 속도
         self.speed = speed
 
+    # 블록 그리기
     def draw(self):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.w, self.h))
 
+    # 블록이 양쪽 화면에 닿으면 방향 전환
     def move(self):
         self.x += self.speed
         if self.x > screen_width:
@@ -45,6 +61,7 @@ class Block:
         if self.x + self.w < 1:
             self.speed *= -1
 
+# 스택 클래스
 class Stack:
     def __init__(self):
         self.stack = []
@@ -85,14 +102,11 @@ class Stack:
             self.stack[upperIndex].speed = 0
             score += 1
         else:
-            close()
+            ending()
         for i in range(self.initSize):
             self.stack[i].y += 10
 
         block_width = self.stack[upperIndex].w
-
-
-
 
 def scoreboard():
     font = pygame.font.SysFont(None, 30)
@@ -104,9 +118,59 @@ def highestboard():
     text = font.render(str(highest_score), True, WHITE)
     screen.blit(text, (10, 10))
 
+def ending():
+    global highest_score
+    loop = True
+
+    font = pygame.font.SysFont(None, 60)
+    if highest_score < score:
+        highest_score = score
+        text = font.render("New Record!", True, WHITE)
+    else:
+        text = font.render("Game Over!", True, WHITE)
+    textRect = text.get_rect()
+    textRect.center = (200, 300)
+
+    while loop:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                close()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    close()
+                if event.key == pygame.K_SPACE:
+                    game()
+        screen.blit(text, textRect)
+
+        pygame.display.update()
+        clock.tick()
+
 def close():
     pygame.quit()
     sys.exit()
+
+def explain():
+    font1 = pygame.font.SysFont(None, 40)
+    font2 = pygame.font.SysFont(None, 20)
+    text1 = font1.render("Press SPACE to Start!", True, WHITE)
+    text2 = font2.render("Press Q to Quit!", True, WHITE)
+    loop = True
+    while loop:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                close()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    loop = False
+                if event.key == pygame.K_q:
+                    close()
+        
+        screen.fill(BLACK)
+        screen.blit(text1, (60, 300))
+        screen.blit(text2, (150, 500))
+        pygame.display.update()
+        clock.tick(60)
+
 
 def game():
     global block_width, block_height, speed, score
@@ -138,4 +202,5 @@ def game():
         pygame.display.update()
         clock.tick(60)
 
+explain()
 game()
