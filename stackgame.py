@@ -23,7 +23,7 @@ block_speed = 3
 
 # 점수
 score = 0
-
+highest_score = 0
 clock = pygame.time.Clock()
 
 class Brick:
@@ -50,6 +50,11 @@ def scoreboard():
     text = font.render(str(score), True, WHITE)
     screen.blit(text, (200, 10))
 
+def highestboard():
+    font = pygame.font.SysFont(None, 30)
+    text = font.render(str(highest_score), True, WHITE)
+    screen.blit(text, (10, 10))
+
 def close():
     pygame.quit()
     sys.exit()
@@ -73,6 +78,7 @@ def game():
                 if event.key == pygame.K_q:
                     close()
         scoreboard()
+        highestboard()
         display.fill(BLACK)
         clock.tick(60)
 
