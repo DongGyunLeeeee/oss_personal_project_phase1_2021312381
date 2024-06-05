@@ -1,4 +1,6 @@
 # oss_personal_project_phase1_2021312381
+# 구현 목표
+"스택게임"은 좌우로 움직이는 블록을 놓여 있는 블록과 차곡차곡 겹치게 쌓아 올리는 게임입니다. 놓여 있는 블록과 겹치는 부분만 쌓이게 되고, 다음 움직이는 블록은 쌓인 블록과 똑같은 크기로 생성됩니다. 최대한 많은 블록을 쌓아 보세요!
 # Reference
 [1] <https://github.com/pygame/pygame> "pygame"
 # 지원 Operating Systems 및 실행 방법
@@ -82,3 +84,7 @@ pip install pygame
 + description: pygame 실행 시 나오는 화면으로 조작키를 설명함.
 ### def game
 + description: stackgame이 실행되는 loop임.
+# TODO List
++ 점수가 높아질수록 움직이는 블록의 속도를 높이는 기능
++ 방향전환을 3번 이상 했을 때 게임 오버가 뜨는 기능
++ 가시성을 위해 움직이는 블록의 색깔을 바꾸는 기능
