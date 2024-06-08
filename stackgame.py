@@ -16,7 +16,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
 # 블록 설정
-block_width = 100
+initial_block_width = 100
 block_height = 10
 
 # 블록 이동 속도
@@ -31,7 +31,7 @@ clock = pygame.time.Clock()
 class Block:
 
     # 블록 초기화
-    def __init__(self, x, y, color, speed):
+    def __init__(self, x, y, color, speed, width):
         # 블록의 x 좌표
         self.x = x
 
@@ -39,7 +39,7 @@ class Block:
         self.y = y
 
         # 블록의 너비
-        self.w = block_width
+        self.w = width
 
         # 블록의 높이
         self.h = block_height
@@ -76,15 +76,18 @@ class Block:
 class Stack:
     
     # 스택 초기화
-    def __init__(self):
+    def __init__(self, block_width):
         self.stack = []
 
         # 쌓인 블록 수
         self.initSize = 20
 
+        # 초기 블록 너비
+        self.block_width = block_width
+
         # 초기 블록 세팅
         for i in range(self.initSize):
-            newBlock = Block(150, 590 - i * 10, RED, 0)
+            newBlock = Block(150, 590 - i * 10, RED, 0, self.block_width)
             self.stack.append(newBlock)
 
     # 초기 블록 세팅
@@ -102,14 +105,14 @@ class Stack:
         global speed
         if score > 0 and score % 3 ==0:
             speed += 1
-        newBlock = Block(0, 390, GREEN, speed)
+        newBlock = Block(0, 390, GREEN, speed, self.block_width)
         self.initSize += 1
         self.stack.append(newBlock)
 
     # 블록 쌓기 게임 진행
     def stacking(self):
-        # 게임 진행 간 유지되어야 하는 블록 너비, 점수 전역 변수 선언
-        global block_width, score
+        # 게임 진행 간 유지되어야 하는 점수 전역 변수 선언
+        global score
 
         # 맨위 블록 인덱스
         lowerIndex = self.initSize - 2
@@ -151,7 +154,7 @@ class Stack:
             self.stack[i].y += 10
 
         # 블록 너비 갱신
-        block_width = self.stack[upperIndex].w
+        self.block_width = self.stack[upperIndex].w
 
 # 현재 점수판
 def scoreboard():
@@ -202,40 +205,54 @@ def close():
     sys.exit()
 
 # 조작키 설명
+# 해당 함수에서 레벨 선택 화면 추가, 선택한 레벨에 따라 초기 블록의 넓이를 설정
 def explain():
+    global initial_block_width
     font1 = pygame.font.SysFont(None, 40)
     font2 = pygame.font.SysFont(None, 20)
-    text1 = font1.render("Press SPACE to Start!", True, WHITE)
-    text2 = font2.render("Press Q to Quit!", True, WHITE)
+    text1 = font1.render("Select Level:", True, WHITE)
+    text2 = font2.render("Press 1 for Easy", True, WHITE)
+    text3 = font2.render("Press 2 for Medium", True, WHITE)
+    text4 = font2.render("Press 3 for Hard", True, WHITE)
+    text5 = font2.render("Press Q to Quit", True, WHITE)
     loop = True
     while loop:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 close()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_1:
+                    initial_block_width = 180  # Easy
+                    loop = False
+                if event.key == pygame.K_2:
+                    initial_block_width = 100  # Medium
+                    loop = False
+                if event.key == pygame.K_3:
+                    initial_block_width = 50  # Hard
                     loop = False
                 if event.key == pygame.K_q:
                     close()
         
         screen.fill(BLACK)
-        screen.blit(text1, (60, 300))
-        screen.blit(text2, (150, 500))
+        screen.blit(text1, (100, 200))
+        screen.blit(text2, (100, 300))
+        screen.blit(text3, (100, 350))
+        screen.blit(text4, (100, 400))
+        screen.blit(text5, (100, 500))
         pygame.display.update()
         clock.tick(60)
 
 
 # 게임 루프
 def game():
-    global block_width, block_height, speed, score
+    global initial_block_width, block_height, speed, score
     loop = True
 
     # 세팅 초기화
-    block_width = 100
     block_height = 10
     speed = 3
     score = 0
-    stack = Stack()
+    stack = Stack(initial_block_width)
     stack.adding()
 
     while loop:
