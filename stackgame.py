@@ -49,6 +49,7 @@ class Block:
         # 블록의 속도
         self.speed = speed
 
+        # 블록의 방향 전환 횟수
         self.direction_changes = 0
 
     # 블록 그리기
@@ -60,8 +61,8 @@ class Block:
         self.x += self.speed
         if self.x > screen_width or self.x + self.w < 1:
             self.speed *= -1
-            self.direction_changes += 1
-            if self.direction_changes > 3:
+            self.direction_changes += 1  # 방향 전환 횟수를 추적하며,
+            if self.direction_changes >= 3:  # 방향 전환 횟수가 3번 이상이면, 게임 오버
                 ending()
 
 # 스택 클래스
