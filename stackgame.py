@@ -87,7 +87,7 @@ class Stack:
 
         # 초기 블록 세팅
         for i in range(self.initSize):
-            newBlock = Block(150, 590 - i * 10, RED, 0, self.block_width)
+            newBlock = Block((screen_width - self.block_width) // 2, 590 - i * 10, RED, 0, self.block_width)
             self.stack.append(newBlock)
 
     # 초기 블록 세팅
@@ -208,13 +208,14 @@ def close():
 # 해당 함수에서 레벨 선택 화면 추가, 선택한 레벨에 따라 초기 블록의 넓이를 설정
 def explain():
     global initial_block_width
-    font1 = pygame.font.SysFont(None, 40)
-    font2 = pygame.font.SysFont(None, 20)
+    font1 = pygame.font.SysFont(None, 45)
+    font2 = pygame.font.SysFont(None, 30)
+    font3 = pygame.font.SysFont(None, 20)
     text1 = font1.render("Select Level:", True, WHITE)
     text2 = font2.render("Press 1 for Easy", True, WHITE)
     text3 = font2.render("Press 2 for Medium", True, WHITE)
     text4 = font2.render("Press 3 for Hard", True, WHITE)
-    text5 = font2.render("Press Q to Quit", True, WHITE)
+    text5 = font3.render("Press Q to Quit", True, WHITE)
     loop = True
     while loop:
         for event in pygame.event.get():
@@ -234,10 +235,10 @@ def explain():
                     close()
         
         screen.fill(BLACK)
-        screen.blit(text1, (100, 200))
-        screen.blit(text2, (100, 300))
-        screen.blit(text3, (100, 350))
-        screen.blit(text4, (100, 400))
+        screen.blit(text1, (100, 150))
+        screen.blit(text2, (100, 250))
+        screen.blit(text3, (100, 300))
+        screen.blit(text4, (100, 350))
         screen.blit(text5, (100, 500))
         pygame.display.update()
         clock.tick(60)
