@@ -130,7 +130,7 @@ class Stack:
             if self.stack[upperIndex].w > lowerBlock.w:
                 self.stack[upperIndex].w = lowerBlock.w
             self.stack[upperIndex].speed = 0
-            # 움직이는 블록의 색깔을 초록색으로 바꿈
+            # 정지되어 있는 블록은 빨간색으로 고정
             self.stack[upperIndex].color = RED
             score += 1
 
@@ -138,7 +138,7 @@ class Stack:
         elif lowerBlock.x <= upperBlock.x <= lowerBlock.x + lowerBlock.w:
             self.stack[upperIndex].w = lowerBlock.x + lowerBlock.w - upperBlock.x
             self.stack[upperIndex].speed = 0
-            # 움직이는 블록의 색깔을 초록색으로 바꿈
+            # 정지되어 있는 블록은 빨간색으로 고정
             self.stack[upperIndex].color = RED
             score += 1
         
