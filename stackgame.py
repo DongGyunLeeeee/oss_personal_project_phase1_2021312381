@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 
 # 파이게임 초기화
 pygame.init()
@@ -25,7 +26,25 @@ speed = 1
 # 점수
 score = 0
 highest_score = 0
+score_file = 'scores.txt'
 clock = pygame.time.Clock()
+
+# 점수 파일 초기화
+if not os.path.exists(score_file):
+    with open(score_file, 'w') as file:
+        file.write('')
+
+# 점수 기록을 불러오기
+def load_scores():
+    with open(score_file, 'r') as file:
+        scores = [int(line.strip()) for line in file if line.strip().isdigit()]
+    return scores
+
+# 점수 기록을 저장하기
+def save_score(new_score):
+    with open(score_file, 'a') as file:
+        file.write(f"{new_score}\n")
+
 
 # 블록 클래스
 class Block:
@@ -162,11 +181,14 @@ def scoreboard():
     text = font.render(str(score), True, WHITE)
     screen.blit(text, (200, 10))
 
-# 최고 점수판
+# 최고 기록 점수판
 def highestboard():
+    scores = load_scores()
+    top_scores = sorted(scores, reverse=True)[:5]
     font = pygame.font.SysFont(None, 30)
-    text = font.render(str(highest_score), True, WHITE)
-    screen.blit(text, (10, 10))
+    for i, top_score in enumerate(top_scores):
+        text = font.render(f"RANK #{i + 1} : {top_score}", True, WHITE)
+        screen.blit(text, (10, 10 + i * 30))
 
 # 엔딩
 def ending():
@@ -178,6 +200,7 @@ def ending():
     # 최고점 갱신
     if highest_score < score:
         highest_score = score
+        save_score(score)
         text = font.render("New Record!", True, WHITE)
     else:
         text = font.render("Game Over!", True, WHITE)
