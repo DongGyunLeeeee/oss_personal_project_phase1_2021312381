@@ -13,6 +13,7 @@ pygame.display.set_caption("Stack Game")
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 # 블록 설정
 block_width = 100
@@ -44,7 +45,7 @@ class Block:
         self.h = block_height
 
         # 블록의 색
-        self.color = RED
+        self.color = color
 
         # 블록의 속도
         self.speed = speed
@@ -64,6 +65,11 @@ class Block:
             self.direction_changes += 1  # 방향 전환 횟수를 추적하며,
             if self.direction_changes >= 3:  # 방향 전환 횟수가 3번 이상이면, 게임 오버
                 ending()
+
+        if self.speed != 0:
+            self.color = GREEN
+        else:
+            self.color = RED
 
 # 스택 클래스
 class Stack:
@@ -95,7 +101,7 @@ class Stack:
         global speed
         if score > 0 and score % 3 ==0:
             speed += 1
-        newBlock = Block(0, 390, RED, speed)
+        newBlock = Block(0, 390, GREEN, speed)
         self.initSize += 1
         self.stack.append(newBlock)
 
@@ -123,12 +129,14 @@ class Stack:
             if self.stack[upperIndex].w > lowerBlock.w:
                 self.stack[upperIndex].w = lowerBlock.w
             self.stack[upperIndex].speed = 0
+            self.stack[upperIndex].color = RED
             score += 1
 
         # 블록을 늦게 쌓은 경우
         elif lowerBlock.x <= upperBlock.x <= lowerBlock.x + lowerBlock.w:
             self.stack[upperIndex].w = lowerBlock.x + lowerBlock.w - upperBlock.x
             self.stack[upperIndex].speed = 0
+            self.stack[upperIndex].color = RED
             score += 1
         
         # 겹치는 지점이 없게 쌓은 경우
