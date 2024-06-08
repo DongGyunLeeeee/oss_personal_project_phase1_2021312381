@@ -49,6 +49,8 @@ class Block:
         # 블록의 속도
         self.speed = speed
 
+        self.direction_changes = 0
+
     # 블록 그리기
     def draw(self):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.w, self.h))
@@ -56,10 +58,11 @@ class Block:
     # 블록이 양쪽 화면에 닿으면 방향 전환
     def move(self):
         self.x += self.speed
-        if self.x > screen_width:
+        if self.x > screen_width or self.x + self.w < 1:
             self.speed *= -1
-        if self.x + self.w < 1:
-            self.speed *= -1
+            self.direction_changes += 1
+            if self.direction_changes > 3:
+                ending()
 
 # 스택 클래스
 class Stack:
