@@ -19,7 +19,7 @@ block_width = 100
 block_height = 10
 
 # 블록 이동 속도
-speed = 3
+speed = 1
 
 # 점수
 score = 0
@@ -88,6 +88,9 @@ class Stack:
 
     # 블록 추가하기
     def adding(self):
+        global speed
+        if score > 0 and score % 3 ==0:
+            speed += 1
         newBlock = Block(0, 390, RED, speed)
         self.initSize += 1
         self.stack.append(newBlock)
