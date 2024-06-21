@@ -98,7 +98,7 @@ class Stack:
     # 블록 쌓기 게임 진행
     def stacking(self):
         # 게임 진행 간 유지되어야 하는 블록 너비, 점수 전역 변수 선언
-        global block_width, score
+        global block_width, score, speed
 
         # 맨위 블록 인덱스
         lowerIndex = self.initSize - 2
