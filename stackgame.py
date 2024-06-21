@@ -13,6 +13,7 @@ pygame.display.set_caption("Stack Game")
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 # 블록 설정
 block_width = 100
@@ -25,6 +26,8 @@ speed = 3
 score = 0
 highest_score = 0
 clock = pygame.time.Clock()
+
+paused = False
 
 # 블록 클래스
 class Block:
@@ -139,13 +142,18 @@ class Stack:
 def scoreboard():
     font = pygame.font.SysFont(None, 30)
     text = font.render(str(score), True, WHITE)
-    screen.blit(text, (200, 10))
+    screen.blit(text, (200, 30))
 
 # 최고 점수판
 def highestboard():
     font = pygame.font.SysFont(None, 30)
     text = font.render(str(highest_score), True, WHITE)
-    screen.blit(text, (10, 10))
+    screen.blit(text, (10, 30))
+
+def block_speed():
+    font = pygame.font.SysFont(None, 30)
+    text = font.render(str(speed), True, WHITE)
+    screen.blit(text, (screen_width-10, 30))
 
 # 엔딩
 def ending():
@@ -206,10 +214,24 @@ def explain():
         pygame.display.update()
         clock.tick(60)
 
+def pause():
+    global paused
+    paused = ~paused
+
+def resume():
+    global paused
+    paused = ~paused
+
+def pausebutton():
+    font = pygame.font.SysFont(None, 30)
+    text = font.render("Press P to Pause and Resume", True, GREEN)
+    # button_rect = pygame.Rect(screen_width - 90, 10, 80, 30)
+    # pygame.draw.rect(screen, GREEN, button_rect)
+    screen.blit(text, (10, 10))
 
 # 게임 루프
 def game():
-    global block_width, block_height, speed, score
+    global block_width, block_height, speed, score, paused
     loop = True
 
     # 세팅 초기화
@@ -223,19 +245,35 @@ def game():
     while loop:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                close()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    stack.stacking()
-                    stack.adding()
-                if event.key == pygame.K_q:
-                    close()
-        
+                close()    
+            if (event.type == pygame.KEYDOWN):
+                key = event.key
+                if paused and key == pygame.K_p: resume()
+                else:
+                    if key == pygame.K_SPACE:
+                        stack.stacking()
+                        stack.adding()
+                    if key == pygame.K_q:
+                        close()
+                    if key == pygame.K_p:
+                        pause()
+                    if key == pygame.K_u:
+                        speedup()
+                    if key == pygame.K_d:
+                        speeddown()
+                    
+            
+            
         screen.fill(BLACK)
-        stack.move()
+
+        if not paused:
+            stack.move()
+
         stack.show()
         scoreboard()
         highestboard()
+        
+
         pygame.display.update()
         clock.tick(60)
 
