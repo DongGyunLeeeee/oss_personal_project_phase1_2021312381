@@ -229,6 +229,19 @@ def pausebutton():
     # pygame.draw.rect(screen, GREEN, button_rect)
     screen.blit(text, (10, 10))
 
+def speedup():
+    global speed
+    speed += 1
+    font = pygame.font.SysFont(None, 30)
+    txt = "UP SPEED" + str(speed)
+    text = font.render(txt, True, GREEN)
+    # button_rect = pygame.Rect(screen_width - 90, 10, 80, 30)
+    # pygame.draw.rect(screen, GREEN, button_rect)
+    screen.blit(text, (screen_width/2, 30))
+def speeddown():
+    global speed
+    speed -= 1
+
 # 게임 루프
 def game():
     global block_width, block_height, speed, score, paused
@@ -262,8 +275,6 @@ def game():
                     if key == pygame.K_d:
                         speeddown()
                     
-            
-            
         screen.fill(BLACK)
 
         if not paused:
@@ -272,6 +283,8 @@ def game():
         stack.show()
         scoreboard()
         highestboard()
+        pausebutton()
+        block_speed()
         
 
         pygame.display.update()
