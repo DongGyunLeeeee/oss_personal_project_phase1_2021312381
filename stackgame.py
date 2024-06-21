@@ -119,13 +119,13 @@ class Stack:
             if self.stack[upperIndex].w > lowerBlock.w:
                 self.stack[upperIndex].w = lowerBlock.w
             self.stack[upperIndex].speed = 0
-            score += 1
+            score += cool_speed()
 
         # 블록을 늦게 쌓은 경우
         elif lowerBlock.x <= upperBlock.x <= lowerBlock.x + lowerBlock.w:
             self.stack[upperIndex].w = lowerBlock.x + lowerBlock.w - upperBlock.x
             self.stack[upperIndex].speed = 0
-            score += 1
+            score += cool_speed()
         
         # 겹치는 지점이 없게 쌓은 경우
         else:
@@ -153,7 +153,7 @@ def highestboard():
 def block_speed():
     font = pygame.font.SysFont(None, 30)
     text = font.render(str(speed), True, WHITE)
-    screen.blit(text, (screen_width-10, 30))
+    screen.blit(text, (screen_width-30, 30))
 
 # 엔딩
 def ending():
@@ -238,9 +238,18 @@ def speedup():
     # button_rect = pygame.Rect(screen_width - 90, 10, 80, 30)
     # pygame.draw.rect(screen, GREEN, button_rect)
     screen.blit(text, (screen_width/2, 30))
+
 def speeddown():
     global speed
     speed -= 1
+    font = pygame.font.SysFont(None, 30)
+    txt = "DOWN SPEED" + str(speed)
+    text = font.render(txt, True, GREEN)
+    screen.blit(text, (screen_width/2, 30))
+
+def cool_speed():
+    global speed
+    return speed - 2
 
 # 게임 루프
 def game():
